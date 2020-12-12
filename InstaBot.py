@@ -9,14 +9,14 @@ import time
 class InstaBot(object):
 
 
-    names_list = ['@nick_giannakopoylos ', '@kwstas.daras ', '@g_chatzo ',
-     '@skot_d_stef ', '@aristos_chalvadakis ', '@amarildo.doci ', '@anthimosfam ' ]
+    names_list = []
 
 
     def __init__(self, user, password, photo_url):
         self.driver = webdriver.Chrome(executable_path='./chromedriver.exe')
         self.password = password
         self.user = user
+        self.photo_url = photo_url
     
 
     def connect(self):
@@ -65,7 +65,7 @@ class InstaBot(object):
             .click()
         time.sleep(2)
 
-bot = InstaBot('', '', "https://www.instagram.com/p/CInSJLKghla/")
+bot = InstaBot()
 if bot.connect() is True:
     for i in range(0,5):
         bot.make_comment()
