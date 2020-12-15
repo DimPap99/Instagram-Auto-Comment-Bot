@@ -79,4 +79,3 @@ class InstaBot(object):
                 bot.make_comment()
                 counter += 1
                 time.sleep(38)
-

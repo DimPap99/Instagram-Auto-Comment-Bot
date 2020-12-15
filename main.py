@@ -27,20 +27,18 @@ def main(logger):
             conf.create_config()
             parser = conf.get_parser()
     except Exception as e:
+        
         logger.log_error("Error: %s" % str(e))
+        raise RuntimeError
 
-    bot = InstaBot(parser.get('credentials', 'username'), parser.get('credentials', 'password'), "parser.get('urls', 'comments_urls')")
+    
     try:
-            
-        if bot.connect() is True:
-            start = time.time()
-            counter = 0
-            while time.time() - start <= (5 * 3600):
-                bot.make_comment()
-                counter += 1
-                time.sleep(38)
+        bot = InstaBot(parser.get('credentials', 'username'), parser.get('credentials', 'password'), parser.get('urls', 'comments_urls'))
+        bot.start()   
+        
     except KeyboardInterrupt:
-        print(counter)
+        print(comments)
+        raise RuntimeError
 
 
 if __name__ == "__main__":
