@@ -76,6 +76,6 @@ class InstaBot(object):
             start = time.time()
             counter = 0
             while time.time() - start <= (5 * 3600):
-                bot.make_comment()
+                self.make_comment()
                 counter += 1
                 time.sleep(38)

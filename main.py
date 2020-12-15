@@ -33,6 +33,8 @@ def main(logger):
 
     
     try:
+        print(parser.get('urls', 'comments_urls'))
+        
         bot = InstaBot(parser.get('credentials', 'username'), parser.get('credentials', 'password'), parser.get('urls', 'comments_urls'))
         bot.start()   
         
