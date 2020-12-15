@@ -5,13 +5,14 @@ from selenium.webdriver.common.by import By
 import random, os, time, sys, logging, datetime
 from ConfigHandler import ConfigHandler
 from Logger import Logger
+from selenium.webdriver.support.wait import WebDriverWait
 
 class InstaBot(object):
 
 
     names_list = ['@nick_giannakopoylos ', '@kwstas.daras ', '@g_chatzo ',
-     '@skot_d_stef ', '@aristos_chalvadakis ', '@amarildo.doci ', '@anthimosfam ', '@swtria.anyf ', '@_betty_ps_ ',
-     '@thanasis_zois ', '@d.skiadas ', '@xristos_kn ', '@stefanos_pasios ' , '@zaxariouu_mi ', '@labros_cass ' ]
+     '@skot_d_stef ', '@aristos_chalvadakis ', '@amarildo.doci ', '@anthimosfam ', '@swtria.anyf ', 
+     '@thanasis_zois ', '@xristos_kn ', '@zaxariouu_mi ', '@labros_cass ' ]
 
 
     def __init__(self, user, password, photo_url):
@@ -35,6 +36,9 @@ class InstaBot(object):
         self.driver.find_element_by_xpath('//button[@type="submit"]')\
             .click()
         time.sleep(5)
+        # WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]"))).click()
+        # WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH, "//button[contains(text(), 'Not Now')]"))).click()
+
         self.driver.find_element_by_xpath("//button[contains(text(), 'Not Now')]")\
             .click()
         time.sleep(5)
@@ -66,37 +70,13 @@ class InstaBot(object):
         self.driver.find_element_by_xpath("//button[contains(text(), 'Post')]")\
             .click()
         time.sleep(2)
-
-script_dir = os.path.dirname(__file__)
-conf = ConfigHandler(os.path.join(script_dir,'config.ini'))
-try:
-    dt_now = datetime.datetime.now()
-    date = [dt_now.second, dt_now.minute, dt_now.hour, dt_now.hour, dt_now.day, dt_now.month, dt_now.year]
-    logger = Logger('instabot',True,logging.DEBUG, str(date[4])+'-'+str(date[5])+'-'+str(date[6]))
-except Exception as error:
-    print(error)
-    sys.exit(-1)
-
-try: 
     
-    if os.path.isfile(os.path.join(script_dir,'config.ini')) is True:
-        parser = conf.get_parser()
-    else:
-        conf.create_config()
-        parser = conf.get_parser()
-except Exception as e:
-    logger.log_error("Error: %s" % str(e))
+    def start(self):
+        if self.connect() is True:
+            start = time.time()
+            counter = 0
+            while time.time() - start <= (5 * 3600):
+                bot.make_comment()
+                counter += 1
+                time.sleep(38)
 
-
-bot = InstaBot(parser.get('credentials', 'username'), parser.get('credentials', 'password'), "parser.get('urls', 'comments_urls')")
-try:
-        
-    if bot.connect() is True:
-        start = time.time()
-        counter = 0
-        while time.time() - start <= (5 * 3600):
-            bot.make_comment()
-            counter += 1
-            time.sleep(38)
-except KeyboardInterrupt:
-    print(counter)

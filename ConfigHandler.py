@@ -26,6 +26,11 @@ class ConfigHandler:
         self.config['urls'] = {
             'comments_urls': 'None'
         }
+        self.config['application'] = {
+            'delay_between_comments' : 'None',
+            'run_for_hours': 'None' # if we have "inf" as argument the script will run forever
+            
+        }
         try:
             with open(self.file_path, 'w+') as f:
                 self.config.write(f)
